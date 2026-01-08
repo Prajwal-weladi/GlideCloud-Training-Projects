@@ -13,6 +13,6 @@ async def generate_embedding(text: str) -> list[float]:
             json=payload,
             timeout=30
         )
-
+    print(response)
     response.raise_for_status()
     return response.json()["embedding"]

@@ -15,7 +15,14 @@ class DocumentRequest(BaseModel):
 
 @router.post("/upload-pdf")
 def upload_pdf(file: UploadFile = File(...)):
-    check_upload_pdf()
+    if not file.filename.endswith(".pdf"):
+        return {"error": "Only PDF files are supported"}
+
+    temp_path = f"temp_{file.filename}"
+
+    with open(temp_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
     return ingest_pdf(temp_path)
 
 @router.post("/documents")

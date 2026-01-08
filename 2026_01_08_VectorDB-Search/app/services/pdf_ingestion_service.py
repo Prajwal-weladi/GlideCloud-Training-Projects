@@ -6,6 +6,7 @@ from app.core.ollam_client import get_embedding
 from app.db.mongodb import chunks_collection
 
 
+
 def ingest_pdf(file_path: str):
     extracted_text = extract_text_from_pdf(file_path)
 

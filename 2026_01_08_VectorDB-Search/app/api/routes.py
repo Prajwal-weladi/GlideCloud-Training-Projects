@@ -4,7 +4,7 @@ import shutil
 import os
 from app.services.ingestion_service import ingest_document
 from app.services.query_service import query_document
-from app.services.pdf_ingestion_service import ingest_pdf
+from app.services.pdf_ingestion_service import ingest_pdf, check_upload_pdf
 
 router = APIRouter()
 
@@ -15,14 +15,7 @@ class DocumentRequest(BaseModel):
 
 @router.post("/upload-pdf")
 def upload_pdf(file: UploadFile = File(...)):
-    if not file.filename.endswith(".pdf"):
-        return {"error": "Only PDF files are supported"}
-
-    temp_path = f"temp_{file.filename}"
-
-    with open(temp_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
+    check_upload_pdf()
     return ingest_pdf(temp_path)
 
 @router.post("/documents")

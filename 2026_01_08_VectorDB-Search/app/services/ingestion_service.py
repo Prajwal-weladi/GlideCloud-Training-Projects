@@ -1,7 +1,11 @@
 from app.db.mongodb import chunks_collection
 from app.core.ollam_client import get_embedding
 from app.utils.text_splitter import split_text
+from fastapi import UploadFile, File
+from app.services.pdf_ingestion_service import ingest_pdf
+import shutil
 import uuid
+
 
 
 def ingest_document(text: str):
